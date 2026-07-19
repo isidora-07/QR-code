@@ -21,8 +21,10 @@
       --muted: #5a6f68;
       --bronze: #9a7b4f;
       --bronze-soft: #c4a574;
-      --card: rgba(255, 255, 255, 0.82);
+      --card: rgba(255, 255, 255, 0.88);
       --line: rgba(28, 61, 52, 0.12);
+      --envelope: #d8e4dd;
+      --envelope-dark: #c5d4cb;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --pad: 1rem;
@@ -47,7 +49,6 @@
       background-attachment: fixed;
       overflow-x: hidden;
       -webkit-tap-highlight-color: rgba(28, 61, 52, 0.12);
-      padding-bottom: calc(1.5rem + var(--safe-bottom));
     }
 
     body::before {
@@ -61,6 +62,201 @@
       z-index: 0;
     }
 
+    /* ——— NASLOVNA / POZIVNICA ——— */
+    .cover {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: grid;
+      place-items: center;
+      padding:
+        calc(1.5rem + var(--safe-top))
+        1.25rem
+        calc(1.5rem + var(--safe-bottom));
+      background:
+        radial-gradient(700px 480px at 50% 20%, rgba(154, 123, 79, 0.14), transparent 60%),
+        linear-gradient(165deg, var(--fog) 0%, var(--mist) 55%, #d5e3da 100%);
+      transition: opacity 0.55s ease, visibility 0.55s ease;
+    }
+
+    .cover.is-gone {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .invite {
+      width: min(340px, 100%);
+      perspective: 1200px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font: inherit;
+      color: inherit;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .invite:focus-visible {
+      outline: 2px solid var(--bronze);
+      outline-offset: 8px;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 5 / 6.2;
+      transform-style: preserve-3d;
+      transition: transform 0.35s ease;
+    }
+
+    .invite:active .envelope {
+      transform: scale(0.985);
+    }
+
+    .envelope-body {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(160deg, #eaf1ec 0%, var(--envelope) 45%, var(--envelope-dark) 100%);
+      border: 1px solid rgba(28, 61, 52, 0.12);
+      box-shadow:
+        0 22px 50px rgba(28, 61, 52, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.55);
+      overflow: hidden;
+    }
+
+    .envelope-body::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(154, 123, 79, 0.28);
+      pointer-events: none;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 42%;
+      background: linear-gradient(180deg, #f2f7f4 0%, #dce7e0 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      z-index: 3;
+      box-shadow: 0 8px 18px rgba(28, 61, 52, 0.08);
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .envelope-seal {
+      position: absolute;
+      left: 50%;
+      top: 38%;
+      z-index: 4;
+      width: 46px;
+      height: 46px;
+      margin-left: -23px;
+      margin-top: -23px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, #d4b483, var(--bronze) 55%, #7d6238);
+      box-shadow: 0 6px 14px rgba(122, 94, 48, 0.35);
+      display: grid;
+      place-items: center;
+      color: #f8f1e6;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      transition: opacity 0.35s ease, transform 0.55s ease;
+    }
+
+    .cover-copy {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 18% 1.25rem 12%;
+      pointer-events: none;
+    }
+
+    .cover-copy .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      font-weight: 500;
+      margin-bottom: 0.7rem;
+    }
+
+    .cover-copy h1 {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 550;
+      font-size: clamp(1.85rem, 8vw, 2.35rem);
+      line-height: 1.1;
+      color: var(--pine);
+      letter-spacing: -0.02em;
+    }
+
+    .cover-copy .date {
+      margin-top: 0.85rem;
+      font-size: 0.92rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .cover-copy .hint {
+      margin-top: 1.6rem;
+      font-size: 0.86rem;
+      color: var(--pine-soft);
+      opacity: 0.85;
+      animation: pulseHint 2.2s ease-in-out infinite;
+    }
+
+    .cover.is-opening .envelope-flap {
+      transform: rotateX(168deg);
+    }
+
+    .cover.is-opening .envelope-seal {
+      opacity: 0;
+      transform: scale(0.6) translateY(-10px);
+    }
+
+    .cover.is-opening .cover-letter {
+      transform: translateY(-38%) scale(1);
+      opacity: 1;
+    }
+
+    .cover-letter {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 22%;
+      height: 58%;
+      z-index: 1;
+      background: #fbfcfb;
+      border: 1px solid rgba(28, 61, 52, 0.1);
+      box-shadow: 0 10px 24px rgba(28, 61, 52, 0.1);
+      transform: translateY(18%) scale(0.96);
+      opacity: 0.35;
+      transition:
+        transform 0.9s 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.7s 0.25s ease;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+    }
+
+    .cover-letter span {
+      font-family: "Fraunces", Georgia, serif;
+      font-style: italic;
+      color: var(--pine-soft);
+      font-size: 1rem;
+    }
+
+    /* ——— SADRŽAJ ——— */
     .wrap {
       position: relative;
       z-index: 1;
@@ -69,12 +265,27 @@
       padding:
         calc(1.75rem + var(--safe-top))
         var(--pad)
-        2rem;
+        calc(2rem + var(--safe-bottom));
+      opacity: 0;
+      transform: translateY(28px) scale(0.98);
+      pointer-events: none;
+      transition:
+        opacity 0.7s 0.15s ease,
+        transform 0.85s 0.1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    body.is-open .wrap {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    body.is-open {
+      padding-bottom: 0;
     }
 
     .hero {
       text-align: center;
-      animation: rise 0.8s ease both;
     }
 
     .eyebrow {
@@ -102,7 +313,6 @@
       height: 1px;
       margin: 1rem auto;
       background: linear-gradient(90deg, transparent, var(--bronze-soft), transparent);
-      animation: rise 0.9s 0.1s ease both;
     }
 
     .letter {
@@ -110,7 +320,6 @@
       padding: 1.25rem 1.1rem;
       background: var(--card);
       border: 1px solid var(--line);
-      animation: rise 0.9s 0.18s ease both;
       box-shadow: 0 12px 36px rgba(28, 61, 52, 0.07);
     }
 
@@ -124,10 +333,7 @@
 
     .letter p:last-child { margin-bottom: 0; }
 
-    .letter .soft {
-      color: var(--muted);
-      display: inline;
-    }
+    .letter .soft { color: var(--muted); }
 
     .letter em {
       font-family: "Fraunces", Georgia, serif;
@@ -171,14 +377,6 @@
       line-height: 1.35;
     }
 
-    .pack .pack-note {
-      margin-top: 0.75rem;
-      margin-bottom: 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
     .sign {
       margin-top: 1.35rem;
       font-family: "Fraunces", Georgia, serif;
@@ -192,7 +390,6 @@
     .lock-panel {
       margin-top: 1.35rem;
       text-align: center;
-      animation: rise 0.95s 0.28s ease both;
     }
 
     .lock-panel .label {
@@ -325,9 +522,9 @@
 
     .hidden { display: none !important; }
 
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes pulseHint {
+      0%, 100% { opacity: 0.55; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(3px); }
     }
 
     @keyframes unlockIn {
@@ -336,28 +533,29 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
+      .cover-copy .hint { animation: none; }
+      .cover,
+      .wrap,
+      .envelope-flap,
+      .envelope-seal,
+      .cover-letter {
         transition: none !important;
       }
     }
 
     @media (min-width: 480px) {
       :root { --pad: 1.35rem; }
-
+      .invite { width: min(380px, 100%); }
       .letter { padding: 1.5rem 1.4rem; }
-
       .pack ul {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
       }
-
       .pack li {
         padding: 0.45rem 0.8rem;
         font-size: 0.95rem;
       }
-
       .btn {
         width: auto;
         min-width: 220px;
@@ -367,7 +565,26 @@
   </style>
 </head>
 <body>
-  <main class="wrap">
+  <!-- NASLOVNA -->
+  <section class="cover" id="cover" aria-label="Pozivnica">
+    <button class="invite" id="openInvite" type="button" aria-label="Otvori pozivnicu">
+      <div class="envelope" aria-hidden="true">
+        <div class="cover-letter"><span>Za tebe</span></div>
+        <div class="envelope-body">
+          <div class="cover-copy">
+            <p class="eyebrow">Malo iznenađenje</p>
+            <h1>Srećan<br />rođendan.</h1>
+            <p class="date">14 · 08 · 2026</p>
+            <p class="hint">dodirni da otvoriš</p>
+          </div>
+        </div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal">♡</div>
+      </div>
+    </button>
+  </section>
+
+  <main class="wrap" id="content" hidden>
     <header class="hero">
       <p class="eyebrow">Malo iznenađenje</p>
       <h1>Srećan rođendan.</h1>
@@ -448,6 +665,9 @@
       const params = new URLSearchParams(location.search);
       const forceUnlock = params.get("test") === "1";
 
+      const cover = document.getElementById("cover");
+      const openBtn = document.getElementById("openInvite");
+      const content = document.getElementById("content");
       const locked = document.getElementById("locked");
       const unlocked = document.getElementById("unlocked");
       const el = {
@@ -457,28 +677,45 @@
         s: document.getElementById("s"),
       };
 
+      let opened = false;
       let revealed = false;
 
-      function reveal() {
+      function openInvitation() {
+        if (opened) return;
+        opened = true;
+        cover.classList.add("is-opening");
+        content.hidden = false;
+
+        window.setTimeout(function () {
+          document.body.classList.add("is-open");
+          cover.classList.add("is-gone");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 950);
+      }
+
+      openBtn.addEventListener("click", openInvitation);
+
+      function revealLocation() {
         if (revealed) return;
         revealed = true;
         locked.classList.add("hidden");
         unlocked.classList.remove("hidden");
-        requestAnimationFrame(function () {
-          unlocked.scrollIntoView({ behavior: "smooth", block: "center" });
-        });
+        if (opened) {
+          requestAnimationFrame(function () {
+            unlocked.scrollIntoView({ behavior: "smooth", block: "center" });
+          });
+        }
       }
 
       function tick() {
         if (forceUnlock) {
-          reveal();
+          revealLocation();
           return;
         }
 
         const diff = UNLOCK - Date.now();
-
         if (diff <= 0) {
-          reveal();
+          revealLocation();
           return;
         }
 
