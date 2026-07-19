@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#e7efea" />
+  <meta name="theme-color" content="#a89a8c" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="robots" content="noindex, nofollow" />
@@ -23,8 +23,7 @@
       --bronze-soft: #c4a574;
       --card: rgba(255, 255, 255, 0.88);
       --line: rgba(28, 61, 52, 0.12);
-      --envelope: #d8e4dd;
-      --envelope-dark: #c5d4cb;
+      --taupe: #a89a8c;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --pad: 1rem;
@@ -48,7 +47,7 @@
         linear-gradient(165deg, var(--fog) 0%, var(--mist) 48%, #dfeae3 100%);
       background-attachment: fixed;
       overflow-x: hidden;
-      -webkit-tap-highlight-color: rgba(28, 61, 52, 0.12);
+      -webkit-tap-highlight-color: transparent;
     }
 
     body::before {
@@ -62,198 +61,114 @@
       z-index: 0;
     }
 
-    /* ——— NASLOVNA / POZIVNICA ——— */
+    /* ——— NASLOVNA (tvoja slika) ——— */
     .cover {
       position: fixed;
       inset: 0;
-      z-index: 40;
-      display: grid;
-      place-items: center;
-      padding:
-        calc(1.5rem + var(--safe-top))
-        1.25rem
-        calc(1.5rem + var(--safe-bottom));
-      background:
-        radial-gradient(700px 480px at 50% 20%, rgba(154, 123, 79, 0.14), transparent 60%),
-        linear-gradient(165deg, var(--fog) 0%, var(--mist) 55%, #d5e3da 100%);
-      transition: opacity 0.55s ease, visibility 0.55s ease;
+      z-index: 50;
+      overflow: hidden;
+      background: var(--taupe);
+      perspective: 1600px;
     }
 
     .cover.is-gone {
-      opacity: 0;
+      pointer-events: none;
       visibility: hidden;
-      pointer-events: none;
     }
 
-    .invite {
-      width: min(340px, 100%);
-      perspective: 1200px;
-      cursor: pointer;
-      border: none;
-      background: none;
-      font: inherit;
-      color: inherit;
-      text-align: center;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .invite:focus-visible {
-      outline: 2px solid var(--bronze);
-      outline-offset: 8px;
-    }
-
-    .envelope {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 5 / 6.2;
-      transform-style: preserve-3d;
-      transition: transform 0.35s ease;
-    }
-
-    .invite:active .envelope {
-      transform: scale(0.985);
-    }
-
-    .envelope-body {
+    .door {
       position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(160deg, #eaf1ec 0%, var(--envelope) 45%, var(--envelope-dark) 100%);
-      border: 1px solid rgba(28, 61, 52, 0.12);
-      box-shadow:
-        0 22px 50px rgba(28, 61, 52, 0.14),
-        inset 0 1px 0 rgba(255, 255, 255, 0.55);
-      overflow: hidden;
-    }
-
-    .envelope-body::before {
-      content: "";
-      position: absolute;
-      inset: 12px;
-      border: 1px solid rgba(154, 123, 79, 0.28);
-      pointer-events: none;
-    }
-
-    .envelope-flap {
-      position: absolute;
-      left: 0;
-      right: 0;
       top: 0;
-      height: 42%;
-      background: linear-gradient(180deg, #f2f7f4 0%, #dce7e0 100%);
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      transform-origin: top center;
-      z-index: 3;
-      box-shadow: 0 8px 18px rgba(28, 61, 52, 0.08);
-      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      bottom: 0;
+      width: 50%;
+      background-image: url("naslovna.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      transition: transform 1.05s cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: transform;
     }
 
-    .envelope-seal {
+    .door-left {
+      left: 0;
+      background-position: left center;
+      transform-origin: left center;
+      box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .door-right {
+      right: 0;
+      background-position: right center;
+      transform-origin: right center;
+      box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.06);
+    }
+
+    /* Na uskim ekranima object-fit cover može pomeriti pečat —
+       držimo background-size tako da centar ostane pečat */
+    @supports (height: 100dvh) {
+      .door {
+        background-size: auto 100%;
+      }
+      @media (min-aspect-ratio: 9/16) {
+        .door { background-size: cover; }
+      }
+    }
+
+    .cover.is-opening .door-left {
+      transform: rotateY(-95deg);
+    }
+
+    .cover.is-opening .door-right {
+      transform: rotateY(95deg);
+    }
+
+    .seal-btn {
       position: absolute;
       left: 50%;
-      top: 38%;
-      z-index: 4;
-      width: 46px;
-      height: 46px;
-      margin-left: -23px;
-      margin-top: -23px;
+      top: 50%;
+      z-index: 5;
+      width: min(42vw, 168px);
+      height: min(42vw, 168px);
+      margin-left: calc(min(42vw, 168px) / -2);
+      margin-top: calc(min(42vw, 168px) / -2);
+      border: none;
       border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 30%, #d4b483, var(--bronze) 55%, #7d6238);
-      box-shadow: 0 6px 14px rgba(122, 94, 48, 0.35);
-      display: grid;
-      place-items: center;
-      color: #f8f1e6;
-      font-family: "Fraunces", Georgia, serif;
-      font-size: 1.05rem;
-      font-style: italic;
-      transition: opacity 0.35s ease, transform 0.55s ease;
+      background: transparent;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      animation: sealPulse 2.4s ease-in-out infinite;
     }
 
-    .cover-copy {
+    .seal-btn:focus-visible {
+      outline: 2px solid #d4af6a;
+      outline-offset: 6px;
+    }
+
+    .seal-btn::after {
+      content: "dodirni pečat";
       position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 18% 1.25rem 12%;
+      left: 50%;
+      top: calc(100% + 14px);
+      transform: translateX(-50%);
+      white-space: nowrap;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 248, 235, 0.88);
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
       pointer-events: none;
     }
 
-    .cover-copy .eyebrow {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--bronze);
-      font-weight: 500;
-      margin-bottom: 0.7rem;
-    }
-
-    .cover-copy h1 {
-      font-family: "Fraunces", Georgia, serif;
-      font-weight: 550;
-      font-size: clamp(1.85rem, 8vw, 2.35rem);
-      line-height: 1.1;
-      color: var(--pine);
-      letter-spacing: -0.02em;
-    }
-
-    .cover-copy .date {
-      margin-top: 0.85rem;
-      font-size: 0.92rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-    }
-
-    .cover-copy .hint {
-      margin-top: 1.6rem;
-      font-size: 0.86rem;
-      color: var(--pine-soft);
-      opacity: 0.85;
-      animation: pulseHint 2.2s ease-in-out infinite;
-    }
-
-    .cover.is-opening .envelope-flap {
-      transform: rotateX(168deg);
-    }
-
-    .cover.is-opening .envelope-seal {
+    .cover.is-opening .seal-btn {
+      animation: none;
       opacity: 0;
-      transform: scale(0.6) translateY(-10px);
+      transform: scale(0.7);
+      transition: opacity 0.35s ease, transform 0.45s ease;
+      pointer-events: none;
     }
 
-    .cover.is-opening .cover-letter {
-      transform: translateY(-38%) scale(1);
-      opacity: 1;
-    }
-
-    .cover-letter {
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      top: 22%;
-      height: 58%;
-      z-index: 1;
-      background: #fbfcfb;
-      border: 1px solid rgba(28, 61, 52, 0.1);
-      box-shadow: 0 10px 24px rgba(28, 61, 52, 0.1);
-      transform: translateY(18%) scale(0.96);
-      opacity: 0.35;
-      transition:
-        transform 0.9s 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.7s 0.25s ease;
-      display: grid;
-      place-items: center;
-      padding: 1rem;
-    }
-
-    .cover-letter span {
-      font-family: "Fraunces", Georgia, serif;
-      font-style: italic;
-      color: var(--pine-soft);
-      font-size: 1rem;
+    @keyframes sealPulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
+      50% { transform: scale(1.04); filter: drop-shadow(0 0 16px rgba(212, 175, 106, 0.45)); }
     }
 
     /* ——— SADRŽAJ ——— */
@@ -267,11 +182,11 @@
         var(--pad)
         calc(2rem + var(--safe-bottom));
       opacity: 0;
-      transform: translateY(28px) scale(0.98);
+      transform: translateY(24px) scale(0.985);
       pointer-events: none;
       transition:
-        opacity 0.7s 0.15s ease,
-        transform 0.85s 0.1s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.7s 0.35s ease,
+        transform 0.85s 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     body.is-open .wrap {
@@ -280,13 +195,7 @@
       pointer-events: auto;
     }
 
-    body.is-open {
-      padding-bottom: 0;
-    }
-
-    .hero {
-      text-align: center;
-    }
+    .hero { text-align: center; }
 
     .eyebrow {
       display: inline-block;
@@ -332,7 +241,6 @@
     }
 
     .letter p:last-child { margin-bottom: 0; }
-
     .letter .soft { color: var(--muted); }
 
     .letter em {
@@ -454,7 +362,6 @@
       user-select: none;
       color: var(--muted);
       font-size: 0.9rem;
-      letter-spacing: 0.03em;
     }
 
     .locked-address .overlay {
@@ -506,11 +413,8 @@
       text-decoration: none;
       font-size: 1.05rem;
       font-weight: 500;
-      letter-spacing: 0.01em;
       border: none;
       cursor: pointer;
-      -webkit-user-select: none;
-      user-select: none;
       transition: background 0.2s ease, transform 0.2s ease;
       box-shadow: 0 8px 20px rgba(28, 61, 52, 0.22);
     }
@@ -522,30 +426,18 @@
 
     .hidden { display: none !important; }
 
-    @keyframes pulseHint {
-      0%, 100% { opacity: 0.55; transform: translateY(0); }
-      50% { opacity: 1; transform: translateY(3px); }
-    }
-
     @keyframes unlockIn {
       from { opacity: 0; transform: translateY(16px) scale(0.985); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .cover-copy .hint { animation: none; }
-      .cover,
-      .wrap,
-      .envelope-flap,
-      .envelope-seal,
-      .cover-letter {
-        transition: none !important;
-      }
+      .seal-btn { animation: none; }
+      .door, .wrap, .seal-btn { transition: none !important; }
     }
 
     @media (min-width: 480px) {
       :root { --pad: 1.35rem; }
-      .invite { width: min(380px, 100%); }
       .letter { padding: 1.5rem 1.4rem; }
       .pack ul {
         display: flex;
@@ -565,23 +457,10 @@
   </style>
 </head>
 <body>
-  <!-- NASLOVNA -->
-  <section class="cover" id="cover" aria-label="Pozivnica">
-    <button class="invite" id="openInvite" type="button" aria-label="Otvori pozivnicu">
-      <div class="envelope" aria-hidden="true">
-        <div class="cover-letter"><span>Za tebe</span></div>
-        <div class="envelope-body">
-          <div class="cover-copy">
-            <p class="eyebrow">Malo iznenađenje</p>
-            <h1>Srećan<br />rođendan.</h1>
-            <p class="date">14 · 08 · 2026</p>
-            <p class="hint">dodirni da otvoriš</p>
-          </div>
-        </div>
-        <div class="envelope-flap"></div>
-        <div class="envelope-seal">♡</div>
-      </div>
-    </button>
+  <section class="cover" id="cover" aria-label="Naslovna">
+    <div class="door door-left" aria-hidden="true"></div>
+    <div class="door door-right" aria-hidden="true"></div>
+    <button class="seal-btn" id="openInvite" type="button" aria-label="Otvori pozivnicu — dodirni zlatni pečat"></button>
   </section>
 
   <main class="wrap" id="content" hidden>
@@ -691,7 +570,7 @@
           document.body.classList.add("is-open");
           cover.classList.add("is-gone");
           window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 950);
+        }, 1000);
       }
 
       openBtn.addEventListener("click", openInvitation);
