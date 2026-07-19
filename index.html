@@ -425,6 +425,28 @@
       line-height: 1.2;
     }
 
+    .doodle-grid li.out {
+      position: relative;
+      opacity: 0.72;
+    }
+
+    .doodle-grid li.out svg {
+      opacity: 0.45;
+    }
+
+    .doodle-grid li.out .stamp {
+      display: block;
+      margin-top: -0.15rem;
+      font-family: "Caveat", cursive;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      color: #9a5a4a;
+      transform: rotate(-6deg);
+      line-height: 1.1;
+    }
+
     .pack {
       margin-top: 1.15rem;
       padding-top: 1rem;
@@ -687,6 +709,16 @@
       <div class="doodles">
         <h2>Šta nas čeka</h2>
         <ul class="doodle-grid">
+          <li class="out" aria-label="Naočare — trenutno nema na stanju">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="22" cy="32" r="10"/>
+              <circle cx="42" cy="32" r="10"/>
+              <path d="M32 32h0M12 30c-3 0-5 2-5 4M52 30c3 0 5 2 5 4"/>
+              <path d="M14 18l36 28" stroke-width="2"/>
+            </svg>
+            <span>naočare</span>
+            <span class="stamp">nema na stanju</span>
+          </li>
           <li>
             <svg viewBox="0 0 64 64" aria-hidden="true">
               <path d="M10 38c2-6 8-9 14-8 3 .4 5 2 7 4"/>
