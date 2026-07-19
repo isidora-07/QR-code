@@ -1188,6 +1188,8 @@
         hs: document.getElementById("hs"),
       };
 
+      const STORAGE_KEY = "uspomena-invite-opened";
+
       let opened = false;
       let routeShown = false;
       let houseShown = false;
@@ -1203,6 +1205,17 @@
         map.h.textContent = String(Math.max(0, Math.floor((diff % 86400000) / 3600000))).padStart(2, "0");
         map.m.textContent = String(Math.max(0, Math.floor((diff % 3600000) / 60000))).padStart(2, "0");
         map.s.textContent = String(Math.max(0, Math.floor((diff % 60000) / 1000))).padStart(2, "0");
+      }
+
+      function showContentImmediate() {
+        opened = true;
+        openBtn.disabled = true;
+        content.hidden = false;
+        document.body.classList.add("is-open");
+        cover.classList.add("is-gone");
+        try {
+          localStorage.setItem(STORAGE_KEY, "1");
+        } catch (e) {}
       }
 
       async function openInvitation() {
@@ -1222,10 +1235,23 @@
         content.hidden = false;
         document.body.classList.add("is-open");
         cover.classList.add("is-gone");
+        try {
+          localStorage.setItem(STORAGE_KEY, "1");
+        } catch (e) {}
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       openBtn.addEventListener("click", openInvitation);
+
+      // Ako je već otvorio pozivnicu — ne vraćaj na pečat posle refresh-a
+      // ?reset=1 briše pamćenje i opet pokazuje naslovnu
+      try {
+        if (params.get("reset") === "1") {
+          localStorage.removeItem(STORAGE_KEY);
+        } else if (localStorage.getItem(STORAGE_KEY) === "1" || params.get("skip") === "1") {
+          showContentImmediate();
+        }
+      } catch (e) {}
 
       function showRoute() {
         if (routeShown) return;
@@ -1233,11 +1259,6 @@
         locked.classList.add("hidden");
         journey.classList.remove("hidden");
         journey.classList.add("is-route");
-        if (document.body.classList.contains("is-open")) {
-          requestAnimationFrame(function () {
-            journey.scrollIntoView({ behavior: "smooth", block: "center" });
-          });
-        }
       }
 
       function showHouse() {
@@ -1250,11 +1271,6 @@
         houseLocked.classList.add("hidden");
         houseUnlocked.classList.remove("hidden");
         houseStatus.textContent = "otključano";
-        if (document.body.classList.contains("is-open")) {
-          requestAnimationFrame(function () {
-            stepHouse.scrollIntoView({ behavior: "smooth", block: "center" });
-          });
-        }
       }
 
       function tick() {
