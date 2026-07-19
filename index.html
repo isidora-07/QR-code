@@ -457,9 +457,9 @@
     }
 
     .sign {
-      margin-top: 1rem;
+      margin-top: 1.1rem;
       font-family: "Caveat", cursive;
-      font-size: clamp(1.9rem, 8vw, 2.5rem);
+      font-size: clamp(2.6rem, 11vw, 3.4rem);
       color: var(--ink);
       text-align: center;
       line-height: 1.15;
@@ -1098,7 +1098,7 @@
         </div>
         <div id="houseLocked">
           <h3>Tačna kuća</h3>
-          <p class="meta">Otključava se · 14.08 · 12:30</p>
+          <p class="meta">Otključava se · 14.08 · 12:20</p>
           <div class="countdown mini" id="houseCountdown" aria-label="Odbrojavanje do tačne kuće">
             <div class="unit"><strong id="hd">0</strong><span>dana</span></div>
             <div class="unit"><strong id="hh">0</strong><span>sati</span></div>
@@ -1129,7 +1129,7 @@
       // Korak 1: putanja (oko naselja, bez tačne kuće)
       const UNLOCK_ROUTE = new Date("2026-08-14T10:15:00+02:00").getTime();
       // Korak 2: tačna kuća (blizu dolaska)
-      const UNLOCK_HOUSE = new Date("2026-08-14T12:30:00+02:00").getTime();
+      const UNLOCK_HOUSE = new Date("2026-08-14T12:20:00+02:00").getTime();
 
       const params = new URLSearchParams(location.search);
       // ?test=1 → putanja, ?test=2 → putanja + kuća
