@@ -685,9 +685,52 @@
       animation: none;
     }
 
-    @keyframes btnPulse {
-      0%, 100% { box-shadow: 3px 4px 0 rgba(58, 52, 47, 0.18); }
-      50% { box-shadow: 3px 4px 0 rgba(58, 52, 47, 0.18), 0 0 0 6px rgba(196, 160, 90, 0.2); }
+    .house-lock {
+      margin-top: 1.25rem;
+      padding-top: 1.15rem;
+      border-top: 1.5px dashed var(--line);
+    }
+
+    .house-title {
+      font-family: "Caveat", cursive;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .house-sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .house-time {
+      margin-bottom: 0.75rem;
+    }
+
+    .house-time strong {
+      font-family: "Courier Prime", monospace;
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .countdown.mini {
+      margin-bottom: 0.85rem;
+    }
+
+    .countdown.mini .unit strong {
+      font-size: clamp(1.2rem, 5.5vw, 1.55rem);
+    }
+
+    .house-final {
+      margin-top: 1rem;
+    }
+
+    .unlock .sub strong {
+      color: var(--ink);
+      font-weight: 700;
     }
 
     .hidden { display: none !important; }
@@ -901,67 +944,119 @@
         <circle cx="32" cy="40" r="3"/>
         <path d="M32 43v5"/>
       </svg>
-      <p class="title">Lokacija je zaključana</p>
+      <p class="title">Putanja je zaključana</p>
       <p class="label">
-        Adresa smeštaja se otključava automatski.
+        Prvo se otključava smer puta — ne i tačna kuća.
         <strong>14. avgust · 10:00</strong>
       </p>
-      <div class="countdown" id="countdown" aria-label="Odbrojavanje do otključavanja">
+      <div class="countdown" id="countdown" aria-label="Odbrojavanje do putanje">
         <div class="unit"><strong id="d">0</strong><span>dana</span></div>
         <div class="unit"><strong id="h">0</strong><span>sati</span></div>
         <div class="unit"><strong id="m">0</strong><span>min</span></div>
         <div class="unit"><strong id="s">0</strong><span>sek</span></div>
       </div>
-      <p class="hint">Budi strpljiv — tad će se pojaviti dugme za Maps.</p>
+      <p class="hint">Gde tačno ideš saznaješ tek na kraju puta.</p>
       <div class="locked-address">
         <p class="overlay-msg">Još nije vreme…</p>
-        <p class="blur">Bio Resort · tajna adresa · planina</p>
-        <div class="btn-locked" aria-hidden="true">Otvori lokaciju — zaključano</div>
+        <p class="blur">•••• · tajni smer · planina</p>
+        <div class="btn-locked" aria-hidden="true">Otvori putanju — zaključano</div>
       </div>
     </section>
 
-    <section id="unlocked" class="unlock hidden" aria-live="polite">
-      <p class="badge">Sada možeš</p>
-      <h2>Lokacija otključana</h2>
-      <p class="place">Bio Resort ČIČKOVA</p>
-      <p class="sub">Tu te čeka smeštaj — i ostatak uspomene.<br />Klikni dugme i otvori u Maps.</p>
+    <section id="routeUnlocked" class="unlock hidden" aria-live="polite">
+      <p class="badge">Korak 1 / 2</p>
+      <h2>Putanja otključana</h2>
+      <p class="place">Prati smer</p>
+      <p class="sub">
+        Otvori navigaciju i kreni.<br />
+        <strong>Tačnu kuću još nećeš videti</strong> — saznaješ je tek kad budeš blizu.
+      </p>
       <a
         class="btn"
-        id="mapsBtn"
-        href="https://www.google.com/maps/place/Bio+Resort+%C4%8CI%C4%8CKOVA/@43.6620654,19.9681311,17z/data=!3m1!4b1!4m11!3m10!1s0x47578f68d1ecfeed:0x28f24d1d792f7e4b!5m4!1s2026-08-14!2i2!4m1!1i2!8m2!3d43.6620654!4d19.9681311!16s%2Fg%2F11y4t1k6y7?entry=ttu"
+        id="routeBtn"
+        href="https://www.google.com/maps/dir/?api=1&destination=43.6708,19.9552&travelmode=driving"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Otvori lokaciju u Maps →
+        Otvori putanju u Maps →
+      </a>
+
+      <div id="houseLocked" class="house-lock">
+        <p class="house-title">Tačna kuća — još zaključana</p>
+        <p class="house-sub">Otključava se automatski</p>
+        <p class="house-time"><strong>14. avgust · 13:00</strong></p>
+        <div class="countdown mini" id="houseCountdown" aria-label="Odbrojavanje do tačne kuće">
+          <div class="unit"><strong id="hd">0</strong><span>dana</span></div>
+          <div class="unit"><strong id="hh">0</strong><span>sati</span></div>
+          <div class="unit"><strong id="hm">0</strong><span>min</span></div>
+          <div class="unit"><strong id="hs">0</strong><span>sek</span></div>
+        </div>
+        <div class="btn-locked" aria-hidden="true">Otkrij tačnu kuću — zaključano</div>
+      </div>
+    </section>
+
+    <section id="houseUnlocked" class="unlock house-final hidden" aria-live="polite">
+      <p class="badge">Korak 2 / 2 · kraj puta</p>
+      <h2>Evo tačne kuće</h2>
+      <p class="place">Bio Resort ČIČKOVA</p>
+      <p class="sub">Tu te čeka smeštaj — i ostatak uspomene.</p>
+      <a
+        class="btn"
+        id="houseBtn"
+        href="https://www.google.com/maps/dir/?api=1&destination=43.6620654,19.9681311&travelmode=driving"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Otvori tačnu lokaciju →
       </a>
     </section>
   </main>
 
   <script>
     (function () {
-      const UNLOCK = new Date("2026-08-14T10:00:00+02:00").getTime();
+      // Korak 1: putanja (oko naselja, bez tačne kuće)
+      const UNLOCK_ROUTE = new Date("2026-08-14T10:00:00+02:00").getTime();
+      // Korak 2: tačna kuća
+      const UNLOCK_HOUSE = new Date("2026-08-14T13:00:00+02:00").getTime();
+
       const params = new URLSearchParams(location.search);
-      const forceUnlock = params.get("test") === "1";
+      // ?test=1 → putanja, ?test=2 → putanja + kuća
+      const test = params.get("test");
 
       const cover = document.getElementById("cover");
       const openBtn = document.getElementById("openInvite");
       const content = document.getElementById("content");
       const locked = document.getElementById("locked");
-      const unlocked = document.getElementById("unlocked");
+      const routeUnlocked = document.getElementById("routeUnlocked");
+      const houseLocked = document.getElementById("houseLocked");
+      const houseUnlocked = document.getElementById("houseUnlocked");
+
       const el = {
         d: document.getElementById("d"),
         h: document.getElementById("h"),
         m: document.getElementById("m"),
         s: document.getElementById("s"),
+        hd: document.getElementById("hd"),
+        hh: document.getElementById("hh"),
+        hm: document.getElementById("hm"),
+        hs: document.getElementById("hs"),
       };
 
       let opened = false;
-      let revealed = false;
+      let routeShown = false;
+      let houseShown = false;
 
       function wait(ms) {
         return new Promise(function (resolve) {
           window.setTimeout(resolve, ms);
         });
+      }
+
+      function fillCountdown(diff, map) {
+        map.d.textContent = String(Math.max(0, Math.floor(diff / 86400000)));
+        map.h.textContent = String(Math.max(0, Math.floor((diff % 86400000) / 3600000))).padStart(2, "0");
+        map.m.textContent = String(Math.max(0, Math.floor((diff % 3600000) / 60000))).padStart(2, "0");
+        map.s.textContent = String(Math.max(0, Math.floor((diff % 60000) / 1000))).padStart(2, "0");
       }
 
       async function openInvitation() {
@@ -971,12 +1066,10 @@
 
         cover.classList.add("is-seal-break");
         await wait(700);
-
         cover.classList.add("is-envelope");
         await wait(280);
         cover.classList.add("is-flap-open");
         await wait(750);
-
         cover.classList.add("is-letter-out");
         await wait(1100);
 
@@ -988,34 +1081,63 @@
 
       openBtn.addEventListener("click", openInvitation);
 
-      function revealLocation() {
-        if (revealed) return;
-        revealed = true;
+      function showRoute() {
+        if (routeShown) return;
+        routeShown = true;
         locked.classList.add("hidden");
-        unlocked.classList.remove("hidden");
+        routeUnlocked.classList.remove("hidden");
         if (document.body.classList.contains("is-open")) {
           requestAnimationFrame(function () {
-            unlocked.scrollIntoView({ behavior: "smooth", block: "center" });
+            routeUnlocked.scrollIntoView({ behavior: "smooth", block: "center" });
+          });
+        }
+      }
+
+      function showHouse() {
+        if (houseShown) return;
+        houseShown = true;
+        if (houseLocked) houseLocked.classList.add("hidden");
+        houseUnlocked.classList.remove("hidden");
+        if (!routeShown) showRoute();
+        if (document.body.classList.contains("is-open")) {
+          requestAnimationFrame(function () {
+            houseUnlocked.scrollIntoView({ behavior: "smooth", block: "center" });
           });
         }
       }
 
       function tick() {
-        if (forceUnlock) {
-          revealLocation();
+        const now = Date.now();
+
+        if (test === "2") {
+          showRoute();
+          showHouse();
+          return;
+        }
+        if (test === "1") {
+          showRoute();
+          fillCountdown(UNLOCK_HOUSE - now, {
+            d: el.hd, h: el.hh, m: el.hm, s: el.hs,
+          });
+          if (UNLOCK_HOUSE - now <= 0) showHouse();
           return;
         }
 
-        const diff = UNLOCK - Date.now();
-        if (diff <= 0) {
-          revealLocation();
-          return;
-        }
+        const routeDiff = UNLOCK_ROUTE - now;
+        const houseDiff = UNLOCK_HOUSE - now;
 
-        el.d.textContent = String(Math.floor(diff / 86400000));
-        el.h.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, "0");
-        el.m.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, "0");
-        el.s.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, "0");
+        if (routeDiff > 0) {
+          fillCountdown(routeDiff, { d: el.d, h: el.h, m: el.m, s: el.s });
+        } else {
+          showRoute();
+          if (houseDiff > 0) {
+            fillCountdown(houseDiff, {
+              d: el.hd, h: el.hh, m: el.hm, s: el.hs,
+            });
+          } else {
+            showHouse();
+          }
+        }
       }
 
       tick();
