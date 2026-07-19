@@ -351,7 +351,10 @@
       background: var(--card);
       border: 1.5px solid var(--line);
       box-shadow: 4px 5px 0 rgba(58, 52, 47, 0.05);
-      text-align: left;
+      text-align: justify;
+      text-justify: inter-word;
+      hyphens: auto;
+      -webkit-hyphens: auto;
     }
 
     .letter p {
@@ -359,6 +362,7 @@
       line-height: 1.48;
       color: var(--ink);
       margin-bottom: 0.65rem;
+      text-align: justify;
       text-wrap: pretty;
       hyphens: auto;
       -webkit-hyphens: auto;
@@ -952,7 +956,7 @@
       <p class="title">Putanja je zaključana</p>
       <p class="label">
         Prvo se otključava smer puta — ne i tačna kuća.
-        <strong>14. avgust · 10:00</strong>
+        <strong>14. avgust · 10:15</strong>
       </p>
       <div class="countdown" id="countdown" aria-label="Odbrojavanje do putanje">
         <div class="unit"><strong id="d">0</strong><span>dana</span></div>
@@ -989,7 +993,7 @@
       <div id="houseLocked" class="house-lock">
         <p class="house-title">Tačna kuća — još zaključana</p>
         <p class="house-sub">Otključava se automatski</p>
-        <p class="house-time"><strong>14. avgust · 13:00</strong></p>
+        <p class="house-time"><strong>14. avgust · 12:30</strong></p>
         <div class="countdown mini" id="houseCountdown" aria-label="Odbrojavanje do tačne kuće">
           <div class="unit"><strong id="hd">0</strong><span>dana</span></div>
           <div class="unit"><strong id="hh">0</strong><span>sati</span></div>
@@ -1020,9 +1024,9 @@
   <script>
     (function () {
       // Korak 1: putanja (oko naselja, bez tačne kuće)
-      const UNLOCK_ROUTE = new Date("2026-08-14T10:00:00+02:00").getTime();
-      // Korak 2: tačna kuća
-      const UNLOCK_HOUSE = new Date("2026-08-14T13:00:00+02:00").getTime();
+      const UNLOCK_ROUTE = new Date("2026-08-14T10:15:00+02:00").getTime();
+      // Korak 2: tačna kuća (blizu dolaska)
+      const UNLOCK_HOUSE = new Date("2026-08-14T12:30:00+02:00").getTime();
 
       const params = new URLSearchParams(location.search);
       // ?test=1 → putanja, ?test=2 → putanja + kuća
