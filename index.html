@@ -312,71 +312,84 @@
       pointer-events: auto;
     }
 
-    .hero { text-align: center; margin-bottom: 0.15rem; }
+    .hero { text-align: center; margin-bottom: 0.1rem; }
 
     .eyebrow {
       display: inline-block;
-      font-size: 0.68rem;
-      letter-spacing: 0.14em;
+      font-size: 0.64rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--taupe-dark);
-      margin-bottom: 0.3rem;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
     }
 
     h1 {
       font-family: "Caveat", cursive;
       font-weight: 700;
-      font-size: clamp(2rem, 8.5vw, 2.7rem);
-      line-height: 1.05;
+      font-size: clamp(1.95rem, 8vw, 2.55rem);
+      line-height: 1.08;
       color: var(--ink);
     }
 
     .divider {
-      width: 36px;
+      width: 28px;
       height: 1px;
-      margin: 0.55rem auto 0.25rem;
-      background: var(--line);
+      margin: 0.45rem auto 0.3rem;
+      background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
     }
 
     .date-line {
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
     }
 
     .letter {
-      margin-top: 0.9rem;
-      padding: 1rem 0.95rem;
-      background: var(--card);
-      border: 1.5px solid var(--line);
-      box-shadow: 4px 5px 0 rgba(58, 52, 47, 0.05);
+      margin-top: 0.75rem;
+      padding: 0.9rem 0.85rem 0.95rem;
+      background:
+        linear-gradient(var(--card), var(--card)) padding-box,
+        linear-gradient(135deg, rgba(196, 160, 90, 0.45), rgba(58, 52, 47, 0.12), rgba(196, 160, 90, 0.35)) border-box;
+      border: 1.5px solid transparent;
+      box-shadow: 0 10px 28px rgba(58, 52, 47, 0.06);
       text-align: justify;
       text-justify: inter-word;
       hyphens: auto;
       -webkit-hyphens: auto;
+      position: relative;
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border: 1px solid rgba(196, 160, 90, 0.22);
+      pointer-events: none;
     }
 
     .letter p {
-      font-size: 0.88rem;
-      line-height: 1.48;
+      font-size: 0.84rem;
+      line-height: 1.42;
       color: var(--ink);
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.5rem;
       text-align: justify;
       text-wrap: pretty;
       hyphens: auto;
       -webkit-hyphens: auto;
+      position: relative;
     }
 
-    .letter p:last-child { margin-bottom: 0; }
-    .letter .soft { color: var(--muted); }
+    .letter p:last-of-type { margin-bottom: 0; }
+    .letter .soft { color: var(--muted); font-size: 0.95em; }
 
     .letter em {
       font-family: "Caveat", cursive;
       font-style: normal;
-      font-weight: 600;
-      font-size: 1.18em;
+      font-weight: 700;
+      font-size: 1.22em;
       color: var(--ink);
+      letter-spacing: 0.01em;
     }
 
     .letter strong {
@@ -385,17 +398,18 @@
     }
 
     .doodles {
-      margin-top: 0.9rem;
-      padding-top: 0.8rem;
-      border-top: 1.5px dashed var(--line);
+      margin-top: 0.7rem;
+      padding-top: 0.65rem;
+      border-top: 1px dashed rgba(196, 160, 90, 0.35);
+      position: relative;
     }
 
     .doodles h2 {
       font-family: "Caveat", cursive;
-      font-size: 1.35rem;
+      font-size: 1.28rem;
       font-weight: 700;
       color: var(--ink);
-      margin-bottom: 0.55rem;
+      margin-bottom: 0.45rem;
       text-align: center;
     }
 
@@ -403,7 +417,7 @@
       list-style: none;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.35rem 0.25rem;
+      gap: 0.3rem 0.2rem;
       max-width: 100%;
       margin: 0 auto;
     }
@@ -412,24 +426,24 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.2rem;
+      gap: 0.15rem;
       text-align: center;
       min-width: 0;
     }
 
     .doodle-grid svg {
-      width: min(40px, 11vw);
-      height: min(40px, 11vw);
+      width: min(36px, 10vw);
+      height: min(36px, 10vw);
       stroke: var(--ink);
       fill: none;
-      stroke-width: 1.6;
+      stroke-width: 1.55;
       stroke-linecap: round;
       stroke-linejoin: round;
-      opacity: 0.88;
+      opacity: 0.82;
     }
 
     .doodle-grid span {
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       letter-spacing: 0.03em;
       text-transform: uppercase;
       color: var(--muted);
@@ -437,34 +451,48 @@
     }
 
     .pack-doodles {
-      margin-top: 0.9rem;
+      margin-top: 0.7rem;
     }
 
     .pack-grid {
       max-width: 100%;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.65rem 0.3rem;
+      gap: 0.55rem 0.25rem;
     }
 
     .pack-grid svg {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
     }
 
     .pack-grid span {
-      font-size: 0.54rem;
+      font-size: 0.52rem;
       letter-spacing: 0.03em;
     }
 
     .sign {
-      margin-top: 1.1rem;
+      margin-top: 0.85rem;
+      padding-top: 0.55rem;
       font-family: "Caveat", cursive;
-      font-size: clamp(2.6rem, 11vw, 3.4rem);
+      font-size: clamp(2.35rem, 10vw, 3.1rem);
       color: var(--ink);
       text-align: center;
-      line-height: 1.15;
+      line-height: 1.12;
       font-weight: 700;
       text-wrap: balance;
+      border-top: 1px solid rgba(196, 160, 90, 0.28);
+      position: relative;
+    }
+
+    .sign::before {
+      content: "✦";
+      display: block;
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+      letter-spacing: 0;
+      font-family: Georgia, serif;
+      font-weight: 400;
     }
 
     .doodle-grid li.out {
