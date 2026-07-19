@@ -481,28 +481,64 @@
     }
 
     .lock-panel {
-      margin-top: 1.35rem;
+      margin-top: 1.5rem;
+      padding: 1.25rem 1rem 1.35rem;
       text-align: center;
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      box-shadow: 4px 5px 0 rgba(58, 52, 47, 0.05);
+    }
+
+    .lock-panel .lock-icon {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 0.55rem;
+      stroke: var(--ink);
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.85;
+    }
+
+    .lock-panel .title {
+      font-family: "Caveat", cursive;
+      font-size: clamp(1.7rem, 6.5vw, 2.1rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 0.35rem;
     }
 
     .lock-panel .label {
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
       color: var(--muted);
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      line-height: 1.45;
+    }
+
+    .lock-panel .label strong {
+      display: block;
+      margin-top: 0.25rem;
+      font-family: "Courier Prime", monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      font-weight: 700;
     }
 
     .countdown {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 0.4rem;
-      margin: 0 auto 0.9rem;
+      margin: 0 auto 1rem;
     }
 
     .unit {
-      padding: 0.7rem 0.2rem;
-      background: rgba(255, 255, 255, 0.4);
+      padding: 0.75rem 0.2rem;
+      background: rgba(255, 255, 255, 0.55);
       border: 1.5px solid var(--line);
       min-width: 0;
     }
@@ -510,7 +546,7 @@
     .unit strong {
       display: block;
       font-family: "Caveat", cursive;
-      font-size: clamp(1.4rem, 7vw, 1.9rem);
+      font-size: clamp(1.55rem, 7.5vw, 2.05rem);
       color: var(--ink);
       font-weight: 700;
       line-height: 1;
@@ -530,65 +566,94 @@
       font-size: 0.88rem;
       color: var(--muted);
       line-height: 1.5;
+      margin-bottom: 0.95rem;
     }
 
     .locked-address {
-      margin-top: 0.9rem;
-      padding: 1.15rem 0.9rem;
+      margin-top: 0.25rem;
+      padding: 1rem 0.85rem 1.1rem;
       border: 1.5px dashed var(--line);
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.35);
       position: relative;
       overflow: hidden;
-      min-height: 3.5rem;
     }
 
     .locked-address .blur {
-      filter: blur(6px);
+      filter: blur(5px);
       user-select: none;
       color: var(--muted);
       font-size: 0.85rem;
+      margin-bottom: 0.75rem;
     }
 
-    .locked-address .overlay {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
+    .locked-address .overlay-msg {
       font-family: "Caveat", cursive;
-      font-size: 1.25rem;
+      font-size: 1.35rem;
+      font-weight: 700;
       color: var(--ink);
-      background: linear-gradient(180deg, rgba(247, 243, 237, 0.1), rgba(247, 243, 237, 0.65));
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .btn-locked {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      min-height: 3rem;
+      padding: 0.85rem 1rem;
+      background: rgba(58, 52, 47, 0.18);
+      color: rgba(58, 52, 47, 0.45);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1.5px dashed rgba(58, 52, 47, 0.25);
+      pointer-events: none;
+      user-select: none;
     }
 
     .unlock {
-      margin-top: 1.35rem;
-      padding: 1.35rem 1.1rem calc(1.25rem + var(--safe-bottom));
+      margin-top: 1.5rem;
+      padding: 1.4rem 1.1rem calc(1.35rem + var(--safe-bottom));
       background: var(--card);
-      border: 1.5px solid var(--line);
+      border: 2px solid var(--gold);
       text-align: center;
       animation: unlockIn 0.85s ease both;
-      box-shadow: 4px 5px 0 rgba(58, 52, 47, 0.05);
+      box-shadow: 0 0 0 4px rgba(196, 160, 90, 0.15), 4px 5px 0 rgba(58, 52, 47, 0.05);
+    }
+
+    .unlock .badge {
+      display: inline-block;
+      margin-bottom: 0.45rem;
+      padding: 0.28rem 0.7rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: rgba(196, 160, 90, 0.25);
+      border: 1px solid rgba(196, 160, 90, 0.45);
     }
 
     .unlock h2 {
       font-family: "Caveat", cursive;
-      font-size: 1.4rem;
+      font-size: clamp(1.7rem, 6vw, 2.1rem);
       font-weight: 700;
+      color: var(--ink);
     }
 
     .unlock .place {
       font-family: "Caveat", cursive;
-      font-size: clamp(1.5rem, 6vw, 1.9rem);
+      font-size: clamp(1.7rem, 7vw, 2.2rem);
       color: var(--ink);
-      margin: 0.25rem 0 0.55rem;
+      margin: 0.2rem 0 0.55rem;
       line-height: 1.15;
       font-weight: 700;
     }
 
     .unlock .sub {
       color: var(--muted);
-      font-size: 0.88rem;
-      margin-bottom: 1.1rem;
+      font-size: 0.9rem;
+      margin-bottom: 1.15rem;
       line-height: 1.5;
     }
 
@@ -597,23 +662,32 @@
       width: 100%;
       align-items: center;
       justify-content: center;
-      min-height: 3.1rem;
-      padding: 0.9rem 1.2rem;
+      gap: 0.45rem;
+      min-height: 3.35rem;
+      padding: 1rem 1.2rem;
       background: var(--ink);
       color: #f7f3ed;
       text-decoration: none;
-      font-size: 0.9rem;
-      letter-spacing: 0.06em;
+      font-size: 0.95rem;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
+      font-weight: 700;
       border: none;
       cursor: pointer;
       transition: transform 0.2s ease, background 0.2s ease;
-      box-shadow: 3px 4px 0 rgba(58, 52, 47, 0.15);
+      box-shadow: 3px 4px 0 rgba(58, 52, 47, 0.18);
+      animation: btnPulse 2s ease-in-out infinite;
     }
 
     .btn:active {
       transform: translate(1px, 1px);
       box-shadow: 1px 1px 0 rgba(58, 52, 47, 0.15);
+      animation: none;
+    }
+
+    @keyframes btnPulse {
+      0%, 100% { box-shadow: 3px 4px 0 rgba(58, 52, 47, 0.18); }
+      50% { box-shadow: 3px 4px 0 rgba(58, 52, 47, 0.18), 0 0 0 6px rgba(196, 160, 90, 0.2); }
     }
 
     .hidden { display: none !important; }
@@ -821,24 +895,36 @@
     </article>
 
     <section id="locked" class="lock-panel" aria-live="polite">
-      <p class="label">Lokacija se otključava</p>
-      <div class="countdown" id="countdown" aria-label="Odbrojavanje">
+      <svg class="lock-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="16" y="28" width="32" height="24" rx="3"/>
+        <path d="M24 28v-6c0-5 4-9 8-9s8 4 8 9v6"/>
+        <circle cx="32" cy="40" r="3"/>
+        <path d="M32 43v5"/>
+      </svg>
+      <p class="title">Lokacija je zaključana</p>
+      <p class="label">
+        Adresa smeštaja se otključava automatski.
+        <strong>14. avgust · 10:00</strong>
+      </p>
+      <div class="countdown" id="countdown" aria-label="Odbrojavanje do otključavanja">
         <div class="unit"><strong id="d">0</strong><span>dana</span></div>
         <div class="unit"><strong id="h">0</strong><span>sati</span></div>
         <div class="unit"><strong id="m">0</strong><span>min</span></div>
         <div class="unit"><strong id="s">0</strong><span>sek</span></div>
       </div>
-      <p class="hint">Budi strpljiv. Vredi.<br />14. avgust · 10:00</p>
-      <div class="locked-address" aria-hidden="true">
-        <p class="blur">Bio Resort · neka tajna adresa · planina</p>
-        <div class="overlay">još malo…</div>
+      <p class="hint">Budi strpljiv — tad će se pojaviti dugme za Maps.</p>
+      <div class="locked-address">
+        <p class="overlay-msg">Još nije vreme…</p>
+        <p class="blur">Bio Resort · tajna adresa · planina</p>
+        <div class="btn-locked" aria-hidden="true">Otvori lokaciju — zaključano</div>
       </div>
     </section>
 
     <section id="unlocked" class="unlock hidden" aria-live="polite">
-      <h2>Otključano</h2>
+      <p class="badge">Sada možeš</p>
+      <h2>Lokacija otključana</h2>
       <p class="place">Bio Resort ČIČKOVA</p>
-      <p class="sub">Tu te čeka smeštaj — i ostatak uspomene.<br />Otvori Maps i kreni.</p>
+      <p class="sub">Tu te čeka smeštaj — i ostatak uspomene.<br />Klikni dugme i otvori u Maps.</p>
       <a
         class="btn"
         id="mapsBtn"
@@ -846,7 +932,7 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        Otvori lokaciju
+        Otvori lokaciju u Maps →
       </a>
     </section>
   </main>
