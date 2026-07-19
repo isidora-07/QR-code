@@ -434,28 +434,18 @@
 
     .pack-grid {
       max-width: 100%;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem 0.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem 0.4rem;
     }
 
     .pack-grid svg {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
     }
 
     .pack-grid span {
-      font-size: 0.62rem;
-      letter-spacing: 0.05em;
-    }
-
-    .pack-grid li.wide {
-      grid-column: 1 / -1;
-      max-width: 180px;
-      margin: 0 auto;
-    }
-
-    .pack-grid li.wide span {
-      max-width: 160px;
+      font-size: 0.58rem;
+      letter-spacing: 0.04em;
     }
 
     .doodle-grid li.out {
@@ -770,14 +760,11 @@
         <ul class="doodle-grid pack-grid">
           <li>
             <svg viewBox="0 0 64 64" aria-hidden="true">
-              <path d="M10 38c2-6 8-9 14-8 3 .4 5 2 7 4"/>
-              <path d="M31 34c2-2 5-3 8-2 7 1 12 6 13 12"/>
-              <path d="M12 40c6 1 11 0 16-2"/>
-              <path d="M36 38c5 2 10 3 15 2"/>
-              <path d="M18 42v6M44 42v6"/>
-              <path d="M14 48h10M40 48h10"/>
+              <circle cx="32" cy="32" r="9"/>
+              <path d="M32 12v6M32 46v6M12 32h6M46 32h6"/>
+              <path d="M18 18l4 4M42 42l4 4M42 18l-4 4M22 42l-4 4"/>
             </svg>
-            <span>papuče</span>
+            <span>dobro raspoloženje</span>
           </li>
           <li>
             <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -790,11 +777,14 @@
           </li>
           <li>
             <svg viewBox="0 0 64 64" aria-hidden="true">
-              <circle cx="32" cy="32" r="9"/>
-              <path d="M32 12v6M32 46v6M12 32h6M46 32h6"/>
-              <path d="M18 18l4 4M42 42l4 4M42 18l-4 4M22 42l-4 4"/>
+              <path d="M10 38c2-6 8-9 14-8 3 .4 5 2 7 4"/>
+              <path d="M31 34c2-2 5-3 8-2 7 1 12 6 13 12"/>
+              <path d="M12 40c6 1 11 0 16-2"/>
+              <path d="M36 38c5 2 10 3 15 2"/>
+              <path d="M18 42v6M44 42v6"/>
+              <path d="M14 48h10M40 48h10"/>
             </svg>
-            <span>dobro raspoloženje</span>
+            <span>papuče</span>
           </li>
           <li>
             <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -805,7 +795,7 @@
             </svg>
             <span>dress code: opušteno, ništa fensi</span>
           </li>
-          <li class="wide">
+          <li>
             <svg viewBox="0 0 64 64" aria-hidden="true">
               <path d="M14 40h36l-3 10H17z"/>
               <path d="M18 40V28h28v12"/>
@@ -813,7 +803,16 @@
               <path d="M28 20c0-3 2-6 4-7M36 20c1-3-1-5 1-7"/>
               <path d="M12 50h40"/>
             </svg>
-            <span>spreman za roštilj, odmor i uživanje</span>
+            <span>spreman za roštilj (poneti meso)</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <path d="M14 36c6-8 14-12 18-12s12 4 18 12"/>
+              <path d="M20 36c4 6 10 10 12 10s8-4 12-10"/>
+              <path d="M32 18v6M28 22h8"/>
+              <circle cx="32" cy="14" r="2.5"/>
+            </svg>
+            <span>odmor i uživanje</span>
           </li>
         </ul>
       </div>
