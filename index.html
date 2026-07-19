@@ -470,10 +470,11 @@
     .sign {
       margin-top: 1.35rem;
       font-family: "Caveat", cursive;
-      font-size: 1.55rem;
+      font-size: clamp(1.85rem, 7vw, 2.35rem);
       color: var(--ink);
       text-align: center;
-      line-height: 1.3;
+      line-height: 1.25;
+      font-weight: 700;
     }
 
     .lock-panel {
@@ -804,7 +805,7 @@
         </ul>
       </div>
 
-      <p class="sign">Vidimo se na tvojoj maloj avanturi. ❤️</p>
+      <p class="sign">Vidimo se na tvojoj maloj avanturi.</p>
     </article>
 
     <section id="locked" class="lock-panel" aria-live="polite">
