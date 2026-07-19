@@ -24,6 +24,8 @@
       --card: rgba(255, 255, 255, 0.88);
       --line: rgba(28, 61, 52, 0.12);
       --taupe: #a89a8c;
+      --env: #cfc3b6;
+      --env-dark: #b9ab9c;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --pad: 1rem;
@@ -61,80 +63,63 @@
       z-index: 0;
     }
 
-    /* ——— NASLOVNA (tvoja slika) ——— */
+    /* ——— SCENA OTVARANJA ——— */
     .cover {
       position: fixed;
       inset: 0;
       z-index: 50;
       overflow: hidden;
       background: var(--taupe);
-      perspective: 1600px;
+      display: grid;
+      place-items: center;
     }
 
     .cover.is-gone {
       pointer-events: none;
       visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
     }
 
-    .door {
+    .stage-closed {
       position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 50%;
-      background-image: url("naslovna.png");
-      background-size: cover;
-      background-repeat: no-repeat;
-      transition: transform 1.05s cubic-bezier(0.65, 0, 0.35, 1);
-      will-change: transform;
+      inset: 0;
+      background: url("naslovna.png") center / cover no-repeat;
+      transition: opacity 0.55s ease, transform 0.7s ease;
     }
 
-    .door-left {
-      left: 0;
-      background-position: left center;
-      transform-origin: left center;
-      box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.06);
-    }
-
-    .door-right {
-      right: 0;
-      background-position: right center;
-      transform-origin: right center;
-      box-shadow: inset 1px 0 0 rgba(0, 0, 0, 0.06);
-    }
-
-    /* Na uskim ekranima object-fit cover može pomeriti pečat —
-       držimo background-size tako da centar ostane pečat */
     @supports (height: 100dvh) {
-      .door {
+      .stage-closed {
         background-size: auto 100%;
       }
       @media (min-aspect-ratio: 9/16) {
-        .door { background-size: cover; }
+        .stage-closed { background-size: cover; }
       }
     }
 
-    .cover.is-opening .door-left {
-      transform: rotateY(-95deg);
+    .cover.is-seal-break .stage-closed {
+      filter: brightness(1.05);
     }
 
-    .cover.is-opening .door-right {
-      transform: rotateY(95deg);
+    .cover.is-envelope .stage-closed {
+      opacity: 0;
+      transform: scale(1.04);
+      pointer-events: none;
     }
 
     .seal-btn {
       position: absolute;
       left: 50%;
       top: 50%;
-      z-index: 5;
-      width: min(42vw, 168px);
-      height: min(42vw, 168px);
-      margin-left: calc(min(42vw, 168px) / -2);
-      margin-top: calc(min(42vw, 168px) / -2);
+      z-index: 8;
+      width: min(44vw, 176px);
+      height: min(44vw, 176px);
+      margin-left: calc(min(44vw, 176px) / -2);
+      margin-top: calc(min(44vw, 176px) / -2);
       border: none;
       border-radius: 50%;
       background: transparent;
       cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
       animation: sealPulse 2.4s ease-in-out infinite;
     }
 
@@ -147,28 +132,186 @@
       content: "dodirni pečat";
       position: absolute;
       left: 50%;
-      top: calc(100% + 14px);
+      top: calc(100% + 12px);
       transform: translateX(-50%);
       white-space: nowrap;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(255, 248, 235, 0.88);
+      color: rgba(255, 248, 235, 0.9);
       text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
       pointer-events: none;
+      transition: opacity 0.25s ease;
     }
 
-    .cover.is-opening .seal-btn {
-      animation: none;
-      opacity: 0;
-      transform: scale(0.7);
-      transition: opacity 0.35s ease, transform 0.45s ease;
+    .seal-shards {
+      position: absolute;
+      inset: 12%;
       pointer-events: none;
+      opacity: 0;
+    }
+
+    .seal-shards span {
+      position: absolute;
+      width: 28%;
+      height: 28%;
+      border-radius: 40% 55% 45% 60%;
+      background:
+        radial-gradient(circle at 35% 30%, #e0c388, #c4a05a 55%, #8a6d35);
+      box-shadow: 0 4px 10px rgba(90, 70, 30, 0.25);
+    }
+
+    .seal-shards span:nth-child(1) { left: 10%; top: 12%; }
+    .seal-shards span:nth-child(2) { right: 8%; top: 18%; }
+    .seal-shards span:nth-child(3) { left: 18%; bottom: 10%; }
+    .seal-shards span:nth-child(4) { right: 14%; bottom: 16%; }
+    .seal-shards span:nth-child(5) { left: 40%; top: 8%; width: 22%; height: 22%; }
+    .seal-shards span:nth-child(6) { left: 42%; bottom: 6%; width: 24%; height: 20%; }
+
+    .cover.is-seal-break .seal-btn {
+      animation: none;
+    }
+
+    .cover.is-seal-break .seal-btn::after {
+      opacity: 0;
+    }
+
+    .cover.is-seal-break .seal-shards {
+      opacity: 1;
+    }
+
+    .cover.is-seal-break .seal-shards span {
+      animation: shardFly 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+    .cover.is-seal-break .seal-shards span:nth-child(1) { --dx: -70px; --dy: -90px; --rot: -40deg; }
+    .cover.is-seal-break .seal-shards span:nth-child(2) { --dx: 80px; --dy: -70px; --rot: 35deg; animation-delay: 0.03s; }
+    .cover.is-seal-break .seal-shards span:nth-child(3) { --dx: -85px; --dy: 75px; --rot: -25deg; animation-delay: 0.05s; }
+    .cover.is-seal-break .seal-shards span:nth-child(4) { --dx: 90px; --dy: 80px; --rot: 45deg; animation-delay: 0.02s; }
+    .cover.is-seal-break .seal-shards span:nth-child(5) { --dx: 10px; --dy: -110px; --rot: 10deg; animation-delay: 0.04s; }
+    .cover.is-seal-break .seal-shards span:nth-child(6) { --dx: -15px; --dy: 105px; --rot: -15deg; animation-delay: 0.06s; }
+
+    .cover.is-envelope .seal-btn {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
     }
 
     @keyframes sealPulse {
-      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
-      50% { transform: scale(1.04); filter: drop-shadow(0 0 16px rgba(212, 175, 106, 0.45)); }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.045); filter: drop-shadow(0 0 14px rgba(212, 175, 106, 0.4)); }
+    }
+
+    @keyframes shardFly {
+      0% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(0.55); opacity: 0; }
+    }
+
+    /* ——— KOVERTA + PISMO ——— */
+    .stage-envelope {
+      position: relative;
+      width: min(320px, 86vw);
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+      pointer-events: none;
+      transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      perspective: 1200px;
+    }
+
+    .cover.is-envelope .stage-envelope {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 5 / 3.4;
+      transform-style: preserve-3d;
+    }
+
+    .env-back {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #ddd2c6, var(--env-dark));
+      border: 1px solid rgba(90, 70, 50, 0.15);
+      box-shadow: 0 18px 40px rgba(60, 45, 30, 0.18);
+      z-index: 1;
+    }
+
+    .env-letter {
+      position: absolute;
+      left: 7%;
+      right: 7%;
+      top: 10%;
+      height: 92%;
+      background: #fbfaf7;
+      border: 1px solid rgba(28, 61, 52, 0.1);
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      transform: translateY(42%);
+      opacity: 0.4;
+      box-shadow: 0 8px 20px rgba(60, 45, 30, 0.12);
+      transition:
+        transform 0.95s 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.6s 0.15s ease;
+    }
+
+    .env-letter strong {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 550;
+      font-size: 1.35rem;
+      color: var(--pine);
+      text-align: center;
+      line-height: 1.25;
+    }
+
+    .env-letter span {
+      display: block;
+      margin-top: 0.45rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 400;
+      font-family: "Outfit", sans-serif;
+    }
+
+    .env-front {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, var(--env) 0%, #c4b6a7 100%);
+      clip-path: polygon(0 38%, 50% 68%, 100% 38%, 100% 100%, 0 100%);
+      border: 1px solid rgba(90, 70, 50, 0.12);
+      z-index: 3;
+      box-shadow: inset 0 8px 16px rgba(255, 255, 255, 0.15);
+    }
+
+    .env-flap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 58%;
+      background: linear-gradient(180deg, #e7ddd2 0%, #d2c4b5 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      z-index: 4;
+      box-shadow: 0 10px 18px rgba(60, 45, 30, 0.1);
+      transition: transform 0.85s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .cover.is-flap-open .env-flap {
+      transform: rotateX(178deg);
+    }
+
+    .cover.is-letter-out .env-letter {
+      transform: translateY(-58%);
+      opacity: 1;
+    }
+
+    .cover.is-letter-out .env-flap {
+      z-index: 1;
     }
 
     /* ——— SADRŽAJ ——— */
@@ -185,8 +328,8 @@
       transform: translateY(24px) scale(0.985);
       pointer-events: none;
       transition:
-        opacity 0.7s 0.35s ease,
-        transform 0.85s 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.7s ease,
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     body.is-open .wrap {
@@ -433,7 +576,15 @@
 
     @media (prefers-reduced-motion: reduce) {
       .seal-btn { animation: none; }
-      .door, .wrap, .seal-btn { transition: none !important; }
+      .seal-shards span,
+      .stage-closed,
+      .stage-envelope,
+      .env-flap,
+      .env-letter,
+      .wrap {
+        animation: none !important;
+        transition: none !important;
+      }
     }
 
     @media (min-width: 480px) {
@@ -458,9 +609,25 @@
 </head>
 <body>
   <section class="cover" id="cover" aria-label="Naslovna">
-    <div class="door door-left" aria-hidden="true"></div>
-    <div class="door door-right" aria-hidden="true"></div>
-    <button class="seal-btn" id="openInvite" type="button" aria-label="Otvori pozivnicu — dodirni zlatni pečat"></button>
+    <div class="stage-closed" aria-hidden="true"></div>
+
+    <button class="seal-btn" id="openInvite" type="button" aria-label="Otvori pozivnicu — dodirni zlatni pečat">
+      <div class="seal-shards" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+    </button>
+
+    <div class="stage-envelope" aria-hidden="true">
+      <div class="envelope">
+        <div class="env-back"></div>
+        <div class="env-letter">
+          <strong>Srećan rođendan.<span>Za tebe</span></strong>
+        </div>
+        <div class="env-front"></div>
+        <div class="env-flap"></div>
+      </div>
+    </div>
   </section>
 
   <main class="wrap" id="content" hidden>
@@ -560,17 +727,36 @@
       let opened = false;
       let revealed = false;
 
-      function openInvitation() {
+      function wait(ms) {
+        return new Promise(function (resolve) {
+          window.setTimeout(resolve, ms);
+        });
+      }
+
+      async function openInvitation() {
         if (opened) return;
         opened = true;
-        cover.classList.add("is-opening");
-        content.hidden = false;
+        openBtn.disabled = true;
 
-        window.setTimeout(function () {
-          document.body.classList.add("is-open");
-          cover.classList.add("is-gone");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 1000);
+        // 1) pečat se lomi
+        cover.classList.add("is-seal-break");
+        await wait(700);
+
+        // 2) pojavljuje se koverta i otvara se
+        cover.classList.add("is-envelope");
+        await wait(280);
+        cover.classList.add("is-flap-open");
+        await wait(750);
+
+        // 3) pismo izlazi
+        cover.classList.add("is-letter-out");
+        await wait(1100);
+
+        // 4) pun sadržaj
+        content.hidden = false;
+        document.body.classList.add("is-open");
+        cover.classList.add("is-gone");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       openBtn.addEventListener("click", openInvitation);
@@ -580,7 +766,7 @@
         revealed = true;
         locked.classList.add("hidden");
         unlocked.classList.remove("hidden");
-        if (opened) {
+        if (document.body.classList.contains("is-open")) {
           requestAnimationFrame(function () {
             unlocked.scrollIntoView({ behavior: "smooth", block: "center" });
           });
