@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#e7efea" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Za tebe · 14.08.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,550;9..144,650&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pine: #1c3d34;
+      --pine-soft: #2f5a4c;
+      --mist: #e7efea;
+      --fog: #f4f7f5;
+      --ink: #1a2a26;
+      --muted: #5a6f68;
+      --bronze: #9a7b4f;
+      --bronze-soft: #c4a574;
+      --card: rgba(255, 255, 255, 0.82);
+      --line: rgba(28, 61, 52, 0.12);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --pad: 1rem;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100dvh;
+      font-family: "Outfit", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(900px 520px at 0% -5%, rgba(154, 123, 79, 0.16), transparent 55%),
+        radial-gradient(700px 480px at 100% 0%, rgba(47, 90, 76, 0.14), transparent 50%),
+        linear-gradient(165deg, var(--fog) 0%, var(--mist) 48%, #dfeae3 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: rgba(28, 61, 52, 0.12);
+      padding-bottom: calc(1.5rem + var(--safe-bottom));
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.28;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: min(560px, 100%);
+      margin: 0 auto;
+      padding:
+        calc(1.75rem + var(--safe-top))
+        var(--pad)
+        2rem;
+    }
+
+    .hero {
+      text-align: center;
+      animation: rise 0.8s ease both;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bronze);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 550;
+      font-size: clamp(2rem, 9vw, 2.75rem);
+      line-height: 1.1;
+      color: var(--pine);
+      letter-spacing: -0.02em;
+      padding: 0 0.25rem;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      margin: 1rem auto;
+      background: linear-gradient(90deg, transparent, var(--bronze-soft), transparent);
+      animation: rise 0.9s 0.1s ease both;
+    }
+
+    .letter {
+      margin-top: 1.25rem;
+      padding: 1.25rem 1.1rem;
+      background: var(--card);
+      border: 1px solid var(--line);
+      animation: rise 0.9s 0.18s ease both;
+      box-shadow: 0 12px 36px rgba(28, 61, 52, 0.07);
+    }
+
+    .letter p {
+      font-size: 1.02rem;
+      line-height: 1.65;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .letter p:last-child { margin-bottom: 0; }
+
+    .letter .soft {
+      color: var(--muted);
+      display: inline;
+    }
+
+    .letter em {
+      font-family: "Fraunces", Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--pine-soft);
+    }
+
+    .letter strong {
+      font-weight: 500;
+      color: var(--pine);
+    }
+
+    .pack {
+      margin-top: 1.25rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .pack h2,
+    .unlock h2 {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 550;
+      color: var(--pine);
+      margin-bottom: 0.65rem;
+    }
+
+    .pack ul {
+      list-style: none;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .pack li {
+      font-size: 0.98rem;
+      padding: 0.7rem 0.85rem;
+      border: 1px solid var(--line);
+      color: var(--pine-soft);
+      background: rgba(255, 255, 255, 0.65);
+      line-height: 1.35;
+    }
+
+    .pack .pack-note {
+      margin-top: 0.75rem;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .sign {
+      margin-top: 1.35rem;
+      font-family: "Fraunces", Georgia, serif;
+      font-style: italic;
+      color: var(--pine);
+      font-size: 1.15rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .lock-panel {
+      margin-top: 1.35rem;
+      text-align: center;
+      animation: rise 0.95s 0.28s ease both;
+    }
+
+    .lock-panel .label {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.4rem;
+      margin: 0 auto 0.9rem;
+    }
+
+    .unit {
+      padding: 0.75rem 0.2rem;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+      min-width: 0;
+    }
+
+    .unit strong {
+      display: block;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(1.25rem, 6.5vw, 1.7rem);
+      color: var(--pine);
+      font-weight: 550;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .unit span {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .hint {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .locked-address {
+      margin-top: 0.9rem;
+      padding: 1.15rem 0.9rem;
+      border: 1px dashed rgba(28, 61, 52, 0.25);
+      background: rgba(255, 255, 255, 0.45);
+      position: relative;
+      overflow: hidden;
+      min-height: 3.5rem;
+    }
+
+    .locked-address .blur {
+      filter: blur(6px);
+      user-select: none;
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+    }
+
+    .locked-address .overlay {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: "Fraunces", Georgia, serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--pine);
+      background: linear-gradient(180deg, rgba(244, 247, 245, 0.15), rgba(244, 247, 245, 0.6));
+    }
+
+    .unlock {
+      margin-top: 1.35rem;
+      padding: 1.35rem 1.1rem calc(1.25rem + var(--safe-bottom));
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--line);
+      text-align: center;
+      animation: unlockIn 0.85s ease both;
+      box-shadow: 0 14px 34px rgba(28, 61, 52, 0.09);
+    }
+
+    .unlock .place {
+      font-family: "Fraunces", Georgia, serif;
+      font-size: clamp(1.3rem, 5.5vw, 1.65rem);
+      color: var(--pine);
+      margin: 0.3rem 0 0.65rem;
+      line-height: 1.2;
+    }
+
+    .unlock .sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.15rem;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.15rem;
+      padding: 0.95rem 1.2rem;
+      background: var(--pine);
+      color: #f7faf8;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      border: none;
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 8px 20px rgba(28, 61, 52, 0.22);
+    }
+
+    .btn:active {
+      background: var(--pine-soft);
+      transform: scale(0.98);
+    }
+
+    .hidden { display: none !important; }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes unlockIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    @media (min-width: 480px) {
+      :root { --pad: 1.35rem; }
+
+      .letter { padding: 1.5rem 1.4rem; }
+
+      .pack ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .pack li {
+        padding: 0.45rem 0.8rem;
+        font-size: 0.95rem;
+      }
+
+      .btn {
+        width: auto;
+        min-width: 220px;
+        margin: 0 auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <p class="eyebrow">Malo iznenađenje</p>
+      <h1>Srećan rođendan.</h1>
+      <div class="divider" aria-hidden="true"></div>
+    </header>
+
+    <article class="letter">
+      <p>
+        Pošto ni u Crnoj Gori nema naočara koje toliko želiš
+        <span class="soft">(ima sličnih modela u sivoj boji, ali ne i sa dovoljno tamnim staklima — komplikovana osobo 😏)</span>,
+        odlučila sam da odustanem od potrage za nečim što trenutno ne postoji.
+      </p>
+      <p>
+        Umesto toga, rešila sam da ti poklonim nešto mnogo vrednije —
+        <em>jednu zajedničku uspomenu</em>.
+        Možda ćeš jednog dana polomiti naočare, izgubiti ih ili ih zameniti novim,
+        ali uspomenu koju ćemo stvoriti niko i ništa neće moći da izbriše.
+      </p>
+      <p>
+        Zato imam jednu molbu za tvog šefa:
+        <strong>14.08. uz obaveznu napomenu uzimaš slobodan dan.</strong>
+        Odmor zaslužuješ više nego što misliš, a ovaj dan je rezervisan samo za nas.
+      </p>
+      <p>
+        Šta ćemo raditi? To ćemo prepustiti trenutku.
+        Možemo da se kupamo, odmaramo, istražujemo, a možemo i da spremamo roštilj —
+        u čemu ti toliko uživaš, dok ja uživam da te gledam kako ga spremaš.
+        Najvažnije je da usporimo i provedemo dan zajedno.
+      </p>
+
+      <div class="pack">
+        <h2>Napomena</h2>
+        <ul>
+          <li>poneti kupaći</li>
+          <li>poneti dobro raspoloženje</li>
+          <li>ništa fensi — što opuštenije</li>
+          <li>biti spreman za odmor, uživanje, dobru hranu i uspomene</li>
+        </ul>
+      </div>
+
+      <p class="sign">Vidimo se na tvojoj maloj avanturi. ❤️</p>
+    </article>
+
+    <section id="locked" class="lock-panel" aria-live="polite">
+      <p class="label">Lokacija se otključava</p>
+      <div class="countdown" id="countdown" aria-label="Odbrojavanje">
+        <div class="unit"><strong id="d">0</strong><span>dana</span></div>
+        <div class="unit"><strong id="h">0</strong><span>sati</span></div>
+        <div class="unit"><strong id="m">0</strong><span>min</span></div>
+        <div class="unit"><strong id="s">0</strong><span>sek</span></div>
+      </div>
+      <p class="hint">Budi strpljiv. Vredi.<br />14. avgust · 10:00</p>
+      <div class="locked-address" aria-hidden="true">
+        <p class="blur">Bio Resort · neka tajna adresa · planina</p>
+        <div class="overlay">još malo…</div>
+      </div>
+    </section>
+
+    <section id="unlocked" class="unlock hidden" aria-live="polite">
+      <h2>Otključano</h2>
+      <p class="place">Bio Resort ČIČKOVA</p>
+      <p class="sub">Tu te čeka smeštaj — i ostatak uspomene.<br />Otvori Maps i kreni.</p>
+      <a
+        class="btn"
+        id="mapsBtn"
+        href="https://www.google.com/maps/place/Bio+Resort+%C4%8CI%C4%8CKOVA/@43.6620654,19.9681311,17z/data=!3m1!4b1!4m11!3m10!1s0x47578f68d1ecfeed:0x28f24d1d792f7e4b!5m4!1s2026-08-14!2i2!4m1!1i2!8m2!3d43.6620654!4d19.9681311!16s%2Fg%2F11y4t1k6y7?entry=ttu"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Otvori lokaciju
+      </a>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const UNLOCK = new Date("2026-08-14T10:00:00+02:00").getTime();
+      const params = new URLSearchParams(location.search);
+      const forceUnlock = params.get("test") === "1";
+
+      const locked = document.getElementById("locked");
+      const unlocked = document.getElementById("unlocked");
+      const el = {
+        d: document.getElementById("d"),
+        h: document.getElementById("h"),
+        m: document.getElementById("m"),
+        s: document.getElementById("s"),
+      };
+
+      let revealed = false;
+
+      function reveal() {
+        if (revealed) return;
+        revealed = true;
+        locked.classList.add("hidden");
+        unlocked.classList.remove("hidden");
+        requestAnimationFrame(function () {
+          unlocked.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      }
+
+      function tick() {
+        if (forceUnlock) {
+          reveal();
+          return;
+        }
+
+        const diff = UNLOCK - Date.now();
+
+        if (diff <= 0) {
+          reveal();
+          return;
+        }
+
+        el.d.textContent = String(Math.floor(diff / 86400000));
+        el.h.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, "0");
+        el.m.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, "0");
+        el.s.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, "0");
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+</body>
+</html>
